@@ -1,0 +1,5 @@
+# GitLab CI
+github-spm-sync/
+
+# Backup files
+*.backup
