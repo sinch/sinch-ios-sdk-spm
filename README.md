@@ -44,7 +44,7 @@ Swift Package Manager distribution for SinchRTC iOS SDK
 
 ## Support
 
-- **Getting Started Guide**: [https://developers.sinch.com/docs/in-app-calling/getting-started/](https://developers.sinch.com/docs/in-app-calling/getting-started/)
-- **Reference Applications**: [https://github.com/sinch/rtc-reference-applications/tree/master/ios](https://github.com/sinch/rtc-reference-applications/tree/master/ios)
+- [Getting Started Guide](https://developers.sinch.com/docs/in-app-calling/getting-started/ios/create-app)
+- [iOS Reference Application](https://github.com/sinch/rtc-reference-applications/tree/master/ios)
 
 ### test
