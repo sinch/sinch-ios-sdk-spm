@@ -1,7 +1,7 @@
 # In-app - Swift Package Manager
-SDK version: v0.0.0
-
 Swift Package Manager distribution for SinchRTC iOS SDK
+
+SDK version: v0.0.0
 
 [![Language](https://img.shields.io/badge/language-Swift-orange?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
