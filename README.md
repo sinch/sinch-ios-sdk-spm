@@ -1,4 +1,6 @@
 # In-app - Swift Package Manager
+SDK version: v0.0.0
+
 Swift Package Manager distribution for SinchRTC iOS SDK
 
 [![Language](https://img.shields.io/badge/language-Swift-orange?style=flat&logo=swift&logoColor=white)](https://swift.org)
@@ -15,20 +17,32 @@ Swift Package Manager distribution for SinchRTC iOS SDK
 
 ### Swift Package Manager
 
-1. In Xcode, go to **File** → **Add Package Dependencies**
+This repository provides two branches so you can choose which binary variant to consume:
+
+- `main` (default) or `dynamic`: uses the dynamic xcframework
+- `static`: uses the static xcframework
+
+### Xcode Integration
+
+1. In Xcode, go to **File** → **Add Package Dependencies...**
 2. Enter the repository URL:
    ```
    https://github.com/sinch/sinch-ios-sdk-spm
    ```
 3. Select **Add Package**
 4. Choose the **SinchRTC** library and click **Add Package**
+5. In the package configuration view, set Dependency Rule to **Branch**, and type either `dynamic` (or `main`) or `static`
 
 ### Manual Integration
 
-1. Add this repository as a dependency in your `Package.swift`:
+1. Add sinch-ios-sdk-spm repository as a dependency in your `Package.swift` (choose one):
    ```swift
    dependencies: [
-       .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git")
+       // Dynamic (same as main)
+       .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "dynamic"),
+       
+       // or Static
+       //.package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "static"),
    ]
    ```
 
