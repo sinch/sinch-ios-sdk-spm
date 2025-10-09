@@ -30,9 +30,6 @@ SDK version: v0.0.0
 **Notes:**
 - For `dynamic`/`main`: in your app target → General → Frameworks, Libraries, and Embedded Content, set SinchRTC to **Embed & Sign**.
 - For `static`: set SinchRTC to **Do Not Embed**. No extra system frameworks are required; the package auto‑links what it needs.
-- Usage descriptions required in your app’s `Info.plist`:
-  - `NSMicrophoneUsageDescription`
-  - `NSCameraUsageDescription` (if you use video)
 
 ### Add via Package.swift (manual)
 Choose one branch:
