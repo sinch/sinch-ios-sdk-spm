@@ -27,7 +27,7 @@ SDK version: v0.0.0
    - `static`: links a static xcframework
 5. Select product **SinchRTC** for your app target and finish.
 
-Notes
+**Notes:**
 - For `dynamic`/`main`: in your app target → General → Frameworks, Libraries, and Embedded Content, set SinchRTC to **Embed & Sign**.
 - For `static`: set SinchRTC to **Do Not Embed**. No extra system frameworks are required; the package auto‑links what it needs.
 - Usage descriptions required in your app’s `Info.plist`:
@@ -53,29 +53,6 @@ targets: [
     )
 ]
 ```
-
-### Manual Integration
-
-1. Add sinch-ios-sdk-spm repository as a dependency in your `Package.swift` (choose one):
-   ```swift
-   dependencies: [
-       // Dynamic (same as main)
-       .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "dynamic"),
-       
-       // or Static
-       //.package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "static"),
-   ]
-   ```
-
-2. Add the library to your target:
-   ```swift
-   targets: [
-       .target(
-           name: "YourApp",
-           dependencies: ["SinchRTC"]
-       )
-   ]
-   ```
 
 ## Resources
 
