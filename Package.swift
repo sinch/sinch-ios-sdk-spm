@@ -5,15 +5,30 @@ let package = Package(
   name: "SinchRTC",
   platforms: [.iOS(.v12)],
   products: [
-    .library(name: "SinchRTC", targets: ["SinchRTC"])
+    .library(name: "SinchRTC", targets: ["SinchRTC", "SinchRTCLinkedFrameworks"]) 
   ],
   targets: [
     .binaryTarget(
       name: "SinchRTC",
-      url: "https://download.sinch.com/ios/temp/spm/SinchRTC-iOS-5.35.28%2b5d41ee65.zip",
-      checksum: "4fc2382778a74db3a4352d1ee7ebdb2a62b33ec1e1c6b81fe484c151065b4b9f"
+      url: "https://download.sinch.com/ios/temp/apple/dynamic/SinchRTC-iOS-5.35.37%2bb7be64a3.zip",
+      checksum: "166230e5511dd138bcc53f8bc97a7b730f6c831d9381cdc1c507e0eead78df30"
+    ),
+    .target(
+      name: "SinchRTCLinkedFrameworks",
+      dependencies: ["SinchRTC"],
+      linkerSettings: [
+        .linkedFramework("PushKit"),
+        .linkedFramework("SystemConfiguration"),
+        .linkedFramework("VideoToolbox"),
+        .linkedFramework("CoreAudioTypes"),
+        .linkedFramework("AudioToolbox"),
+        .linkedFramework("AVFoundation"),
+        .linkedFramework("CoreMedia"),
+        .linkedFramework("CoreVideo"),
+        .linkedLibrary("z")
+      ]
     )
   ]
 )
 
-// test 6
+// test 7

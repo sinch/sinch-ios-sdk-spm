@@ -1,0 +1,743 @@
+5.34.4
+  - Added generic audio-session hooks Swift API:
+    - `didActivate(audioSession: AVAudioSession)`
+    - `didDeactivate(audioSession: AVAudioSession)`
+  - Deprecated Swift API:
+    - `func provider(_ provider: CXProvider, didActivateAudioSession audioSession: AVAudioSession)`
+    - `func provider(_ provider: CXProvider, didDeactivateAudioSession audioSession: AVAudioSession)`
+  - Added generic audio-session hooks Objective-C:
+    - `- (void)didActivateAudioSession:(AVAudioSession *)audioSession;`
+    - `- (void)didDeactivateAudioSession:(AVAudioSession *)audioSession;`
+  - Deprecated Objective-C API:
+    - `- (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession;`
+    - `- (void)provider:(CXProvider *)provider didDeactivateAudioSession:(AVAudioSession *)audioSession;`
+
+5.33.16
+  - Recreate local instance when a 401 Unauthorized response with internal error code 1104 is received from OCRA.
+
+5.32.27
+  - Bugfix: fixed an issue which caused generation of `unable to locate module needed for external types` build warnings when using the SDK.
+  - Bugfix: fixed an issue that could cause `SinchCallClientDelegate.didReceiveIncomingCall` being incorrectly invoked when 2 peers attempted to call each 
+    other simultaneously.
+  - Bugfix: fixed an issue when `SinchCallClientDelegate.didReceiveIncomingCall` was incorrectly invoked when new push notification was received and 
+    user had an already active call while the application was in background.
+  - Bugfix: fixed an issue which caused internal Sinch client configuration not to be always updated on client startup.
+  - Feature: `-[SINAudioController mute]` now handles muting a call before it is answered.
+  - Feature: Update WebRTC to M131.
+  - Bugfix: fixed an audio session configuration issue, where preferred input was set before the session was activated.
+
+5.31.18
+  - Bugfix: an issue causing wrong ICE states being assigned when multiple B sides were involved in the call.
+  - Feature: Add `setWebRtcCallConfiguration(_ webRtcCallConfiguration:)` for `SinchCallClient` allowing to filter ICE candidates which 
+    will be used when creating the peer connection.
+  - Feature: Raise deployment target to iOS 12.
+  - Feature: Add `answered` state for "SinchCall.State". This state is reached when the call has been answered by the callee but 
+    the media (ICE) didn't connect yet.
+  - Feature: Expose `progressedTime`, `rungTime` and `answeredTime` for "SinchCallDetails".
+  - Feature: Issue call quality warning events exclusively after the call is established.
+  - Feature: Add `callDidRing(_ call:)` callback for `SinchCallDelegate`. It is invoked for the caller only, once the callee receives
+    the call (after the push notification is propagated to the Sinch SDK).
+
+5.30.22
+  - Feature: Expose `callDidEmitCallQualityEvent:event:` to the public API in `SinchCallDelegate`.
+  - Feature: Add `callDidAnswer:` callback for `SinchCallDelegate`. It is invoked when the callee answers the call.
+  - Feature: Change `callDidEstablish:` callback invocation logic. It is now triggered when the callee answered the call and media 
+    connection is established.
+  - Feature: Add 'ZeroAudioLevelWarningEvent' call quality warning event.
+  - Feature: Adjust `ConstantAudioLevelWarning` time span threshold (increased from 8 to 20 seconds).  
+  - Bugfix: bug that caused `startTime` property of the call details to be incorrectly set for the B side when it was the callee that 
+    terminated the call.
+
+5.29.18
+  - Feature: Sinch.framework and SinchRTC.framework now include `PrivacyInfo.xcprivacy` file, to comply with Apple's requirements on
+    third-party SDKs requirements (https://developer.apple.com/support/third-party-SDK-requirements/).
+  - Bugfix: fixed an issue where calls would not automatically switch to a connected Bluetooth device, causing the call audio to continue
+    through the device's build-in-receiver instead.
+  - Bugfix: updated the AVAudioSession handling at the start of call by setting AVAudioSessionCategoryPlayAndRecord immediately, instead of 
+    using `AVAudioSessionCategoryPlayback` until call was established.
+  - Bugfix: fixed issue when audio coming from other apps (e.g. music from Spotify) not resuming
+    after call has ended.
+  - Bugfix: fixed an issue when enabled speaker was not reset for subsequent call.
+
+5.28.5
+  - Bugfix: removed accidental recursive call to a property setter, that lead to the app being killed during a call when in background
+    because of too high CPU consumption.
+
+5.27.8
+  - Bugfix: fixed crashes due to race conditions when accessing SQLite.
+  - Bugfix: potential mitigation for crash occurring in `-[SINCallClientImpl processPushNotificationPayload_wq:]`.
+
+5.26.5
+  - Bugfix: fixed deadlock condition in internal component (REBBackgroundAwareTimer).
+  - Bugfix: fixed issue causing potential signalling problems during ongoing call.
+  - Bugfix: fixed issue with caller being stuck during call initiation phase.
+  - Bugfix: fixed NSInvalidArgumentException in SINClientsObserver.
+
+5.25.9
+  - Bugfix: improved internal caching logic.
+
+5.24.14
+  - Feature: improved internal reporting of call quality data.
+
+5.23.5
+  - Bugfix: fixed crash due to mishandling of HTTP responses received after Sinch client termination.
+
+5.22.5
+  - Bugfix: the download size reduction achieved in 5.19.19 destroyed debug symbols definition, and is now reverted. Linker warnings similar
+    to "/private/tmp/tmp.mvxNwcA5SZ/./0/*.o unable to open object file: No such file or directory" should be gone now.
+
+5.21.15
+  - Bugfix: fixed deadlock condition in internal component (REBHTTPService).
+  - Feature: the SDK is now thread safe, and all API methods can be invoked from any thread; UIView extensions make exceptions, as they
+    always have to be invoked from the main queue.
+  - Feature: introduced `SinchRTC.setCallbackQueue(queue:)`/`SinchRTC.getCallbackQueue()` methods, that allow getting/setting the queue
+    where the delegate methods of SinchClientDelegate, SinchCallClientDelegate, SinchCallDelegate, SinchAudioControllerDelegate are executed.
+    Note that SinchManagedPushDelegate methods will still be invoked on any thread, and handling of an incoming VoIP push (i.e., reporting an
+    incoming call to CallKit) can't be dispatched on other queues, as it must be performed synchronously. The recommendation is to set the
+    desired callback queue before instantiating any Sinch component.
+
+5.20.14
+  - Bugfix: fixed crash that occurred when conflicting versions of SQLite were used by the SDK and other components of the customer's app.
+
+5.19.19
+  - The download size of the "static library" version of the SDK is now significantly smaller.
+  - Bugfix: made the SDK more robust with respect to failures in AVAudioSession activation.
+
+5.18.20
+  - Feature: when calls are automatically hung-up for being in failed state for too long, SINCall.details.endCause will have value
+    SINCallEndCauseInactive.
+  - Updated WebRTC to M108. This update moves away from WebRTC version that was marked as vulnerable by Google.
+    See https://support.google.com/faqs/answer/12577537 for more information.
+  - Removed bitcode support. Bitcode is deprecated by Apple and will no longer be enabled by default on xCode 14.
+    See https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes#Deprecations for more information.
+    If your app uses bitcode you must disable it explicitly in xCode project's build settings tab
+    (Build Options->Build Settings->Enable Bitcode).
+
+5.17.6
+  - Bugfix: fixed crashes that could occur in case of prolonged connectivity loss during a call or during Sinch client deallocation.
+  - Feature: improved caching of instance data; clients should expect to have requiresRegistrationCredentials callback being executed less
+    often.
+  - Feature: implemented automatic hang-up when a call is lingering in failed state for too long.
+
+5.16.4
+  - Feature: debug symbols are now included in the dynamic libraries version of the SDK as dSYM files.
+  - Bugfix: added some missing debug symbols to the static libraries version of the SDK.
+  - Bugfix: improve sample apps fix for iOS16, initially introduced in 5.14.10; the new fix doesn't require
+    CXProviderDelegate.provider(_:execute:) anymore.
+
+5.15.8
+  - Bugfix: fixed several unsafe usages of raw pointers that were causing sporadic SDK crashes.
+
+5.14.10
+  - Bugfix: fixed unsafe usage of weak references that led to sporadic SDK crashes.
+  - Bugfix: adapt sample apps to work around iOS16 beta CallKit possible bug: requesting a CXCallController transaction to e.g.
+    start a CallKit call would not trigger the corresponding CXProviderDelegate callbacks (e.g. CXProviderDelegate.provider(_:perform:)),
+    and call won't be initiated. The workaround consists in implementing CXProviderDelegate.provider(_:execute:)
+    (https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648257-provider) and perform all actions included in the
+    transaction from there.
+  - Bugfix: SinchAudioController delegate methods were not being invoked in Swift SDK.
+
+5.13.8
+  - Feature: debug symbols are now included in the static libraries version of the SDK.
+  - Bugfix: in the Swift SDK, some type of malformed input (e.g. malformed headers) provided when starting a new outbound call via one of
+    the SinchCallClient.call* functions returned a SinchCall object rather than an error.
+  - Bugfix: `-[SINAudioController startPlayingSoundFile:loop:error:]` can now handle paths with whitespaces.
+
+5.12.5
+  - Feature: added audio route logging.
+
+5.11.6
+  - Bugfix: users who did not start the Sinch client for a long time (> 1 year) might end up relying on cached registration data 
+    which are expired, preventing authentication on the Sinch backend.
+  - Reduced SDK disk footprint.
+
+5.10.12
+  - Feature: Added support for iOS Simulator on Apple Silicon.
+  - Removed SinchCalling and SinchVideo sample apps, which relied on unsupported "Active connection" functionality.
+
+5.9.6
+  - Update WebRTC to M96.
+  - Feature: the SDK is now available both as static library, and dynamic library; note that if you switch from using dynamic to static
+    version of the SDK, you might have to:
+     - change the "Embed" field for Sinch.framework in the target dependency from "Embed & Sign" to "Do not embed"; you might not be able to
+       install the app on devices otherwise (see https://stackoverflow.com/q/68931476 for example of error logs).
+     - add "-ObjC" to your app's "Other Linker Flags" (Build settings -> All -> Other Linker Flags) if you experience runtime errors such as
+       "selector not recognized"; see https://developer.apple.com/library/archive/qa/qa1490/_index.html for further details.
+  - Update SDK dependencies (Frameworks/Libraries); refer to the sample apps for the complete list of dependencies.
+
+5.7.5
+  - Bugfix: SinchVideoController.setLocalVideoFrameCallback(callback:) returned frame from remote video instead.
+  - Bugfix: SinchVideoFrameCallback protocol now provides @escaping completion handler, to allow asynchronous video frame processing.
+
+5.6.7
+  - Bugfix: HTTP requests to Sinch backend API were failing on iOS 11, due to unsupported NSURLRequestNetworkServiceType values.
+
+5.5.6
+  - Bugfix: distributing an app (e.g. AppStore distribution) that consumes Sinch.xcframework caused a crash if Bitcode was enabled.
+  - Bugfix: incorrect HTTP timeout caused dropping of the signaling channel on calls longer than ~90s; media streams would still be valid
+    in affected calls, but hanging up on one peer would not end the call for the other peer.
+  - Bugfix: discard second SDP Answer
+
+5.4.14
+  - Bugfix: SinchCallClient.videoCallToUser(withId:, usingHeaders:) initiated an audio-only call instead of a video call.
+
+5.3.24
+  - Fix the crash when peer connection delegate was not cleaned before destruction
+  - Update API doc to mention thread safety
+  - Use perfect negotiation after first call setup
+  - Removed iOS10/armv7 support
+
+5.2.49
+  - Removed use of NSException to signal recoverable failure, to prevent problems due to Objective-C exceptions being unrecoverable in Swift
+    (see https://developer.apple.com/documentation/swift/cocoa_design_patterns/handling_cocoa_errors_in_swift#2993730). In particular:
+    - added NSError out-parameter to +[Sinch clientWithApplicationKey:environmentHost:userId:cli:], which doesn't @throw anymore
+    - added NSError out-parameter to +[Sinch clientWithApplicationKey:environmentHost:userId], which doesn't @throw anymore
+    - added NSError out-parameter to -[SINClient setPushNotificationName:], which doesn't @throw anymore
+    - -[SINCallClient callXXX] methods don't @throw anymore; if they are invoked with the wrong parameters, or with SINCallClient in invalid
+      state, they will return a SINCall object that will signal the failure to the delegate via -[SINCallDelegate callDidEnd:] as soon as
+      possible
+    - -[SINCall sendDTMF:] doesn't @throw anymore; in case of invalid key parameter, it will return NO
+    - added NSError out-parameter to -[SINAudioController startPlayingSoundFile:], which doesn't @throw anymore
+    Note that NSExceptions are still used to signal non-recoverable failures (see -[SINClient enableManagedPushNotifications],
+    -[SINClient registerPushNotificationsDeviceToken:type:apsEnvironment:]).
+  - Introduced -[SINAudioController customAudioSessionCategoryOptions:], which allows specification of custom AVAudioSessionCategoryOptions to
+    be set during calls.
+  - +[Sinch version] renamed to +[Sinch versionString], to avoid overriding +[NSObject version] with different return type.
+
+5.1.7
+  - Improved error domain granularity of SINCallDetails.error
+
+5.0.5
+  - Removed support for Remote Push type. VoIP push is now the only Push type supported.
+  - Removed SINPushTypeRemote, SINPushTypeKey
+  - Removed [SINManagedPush application:didRegisterForRemoteNotificationsWithDeviceToken:]
+  - Removed [SINManagedPush application:didReceiveRemoteNotification:]
+  - Renamed SINRemoteNotificationKey to SINPushNotificationKey
+  - Renamed [SINClient relayRemotePushNotification:] to [SINClient relayPushNotification:]
+
+5.0.4
+  - Fix bug in AVAudioSession handling, which caused interference with other apps' audio after call end if speakers were enabled under
+    certain conditions. Now the AVAudioSession is properly deactivated at call end.
+
+5.0.3
+  - Remove SINAPSEnvironmentAutomatic from public API. Use SINAPSEnvironmentDevelopment or SINAPSEnvironmentProduction directly.
+  - Fix bug that led to reset of AVAudioSessionCategoryOptions when enabling/disabling speakers, or at call start.
+  - If AudioSessionCategory is already 'PlayAndRecord' at call start, it will now remain unchanged instead of being set to 'Playback'.
+
+5.0.2
+  - Audio session category options and audio session mode are restored to their original values after call end.
+
+5.0.1
+  - Audio session category is not set to 'PlayAndRecord' at client startup anymore. Audio session category is now set to 'Playback' at the
+    beginning of incoming/outgoing call, then to 'PlayAndRecord' once the media stream(s) are established and eventually restored to the
+    original category when the call ends.
+  - Support specifying/modifying call headers via ICE callback response.
+
+5.0.0
+  - Sinch environment host changed to ocra.api.sinch.com
+  - Remove support for legacy push data (-[SINClient registerPushNotificationData:])
+  - Removed SINErrorDomainCapability, SINErrorDomainOther. Added SINErrorDomain (generic)
+  - Removed deprecated -[SINClient stop] (and -[SINClientDelegate clientDidStop:]).
+    Use -[SINClient terminateGracefully] instead.
+  - Removed deprecated "Active Connection" functionality. Push Notifications should be used instead.
+  - Removed sample app SinchVideoFilter
+  - Configuring iOS Data Protection moved to +[Sinch setDataProtectionType:] (global)
+  - Remove -[SINManagedPush setDesiredPushTypeAutomatically] (use -[SINManagedPush setDesiredPushType:] instead)
+  - SINManagedPush changed from protocol to class.
+  - Removed class SINPushHelper. Method queryPushNotificationPayload: moved to class SINManagedPush.
+  - Remove -[SINCallClientDelegate willReceiveIncomingCall:] callback. Callback functionalities for incoming calls are now condensed into
+    -[SINCallClientDelegate didReceiveIncomingCall:], which is now invoked exactly once per incoming call before the call is established,
+    and should also be used to handle CallKit in incoming calls.
+  - Unify SINLocalVideoFrameCallback and SINRemoteVideoFrameCallback into same protocol type, SINVideoFrameCallback.
+
+4.2.3
+  - Fix crash on iOS 10 caused by method -[PKPushRegistryDelegate pushRegistry:
+    didReceiveIncomingPushWithPayload:forType:] not being implemented.
+
+4.2.2
+  - Fix for multiple Callee scenarios that are dependent on media proxy relay.
+
+4.2.1
+  - Rebuilt to resolve issues using Deployment Target iOS 10.0.
+
+4.2.0:
+  - Re-add support for legacy push data:
+    -[SINCallDelegate call:shouldSendPushNotifications:]
+    -[SINClient registerPushNotificationData:]
+    -[SINClient unregisterPushNotificationData]
+
+    NOTE: These APIs will be removed in the next major version of the
+    Sinch RTC SDK (5.x). Please migrate to use the "Sinch Managed Push
+    Notifications" functionality.
+
+4.1.0:
+  - iOS 13 VoIP push and CallKit compatibility. When linking against
+    the iOS 13 SDK or later, your application must report VoIP push
+    notifications as an incoming call to
+    CallKit. -[SINManagedPushDelegate
+    managedPush:didReceiveIncomingPushWithPayload:forType:] will now
+    be invoked synchronously on Sinch-internal GCD queue as assigned
+    to PKPushRegistry so that an application can report to CallKit
+    within the same runloop as mandated by the iOS 13 changes.
+
+  - Fix video functionality on iOS 13 (H.264 codec, video rotation)
+
+  - Removed support for local notifications
+    (UILocalNotification). Since CallKit is effectively mandatory to
+    use with PushKit, using local notifications in conjunction with
+    VoIP push is no longer applicable since iOS SDK 13. An application
+    using the Sinch SDK should use PushKit and CallKit going forward.
+
+  - Removed support for canceled call notifications (also known as
+    "missed call" notifications). iOS 13 requirements on how a (new)
+    call must be reported for each received VoIP push notification has
+    severe implications on the previous support for canceled call
+    notifications, so severe that it is no longer possible to support.
+    (-[SINCallNotificationResult isCallCanceled] is no longer available)
+
+  - Removed support for -[SINCallDetails
+    applicationStateWhenReceived]. This is no longer supported due to
+    that a -[UIApplication applicationState] can only safely be used
+    on main UI thread (Main Thread Checker would catch this as
+    incorrect usage under certain circumstances).
+
+  - IMPORTANT: A VoIP push payload MUST be relayed to -[SINManagedPush
+    didCompleteProcessingPushPayload:] unless it is relayed to an
+    instance of SINClient. Note that the sample app SinchCallKit
+    implements it so that it always invokes this method, which is also
+    OK.
+
+  - Remove logging callback from SINClientDelegate.
+    Logging callback should now be set via [Sinch setLogCallback:].
+    Logging callback will be invoked on a background GCD queue (assume
+    that it's invoked on a concurrent GCD queue).
+
+  - Removed -[SINManagedPush registerUserNotificationSettings] and
+    -[SINManagedPush setUserNotificationTypes:] (these APIs were tied
+    to iOS APIs deprecated since iOS 10).
+    Managing authorization for remote (non-VoIP) or local
+    notifications is now outside the scope of the Sinch APIs and an
+    application should use UserNotifications.framework directly.
+
+  - iOS Deployment Target raised to iOS 10.0.
+
+  - Removed support for Instant Messaging.
+
+3.12.10:
+  - Assign non-main GCD queue for PKPushRegistry
+  - Ensure SINManagedPush is safe (thread-safe) to invoke from non-main thread (i.e. from any background GCD queue).
+
+3.12.9:
+ - Updated Sinch iOS SDK to handle missing audio and video on calls originated by Sinch JS SDK. Issue introduced by the latest Chrome and Firefox browsers update.
+
+3.12.8:
+ - Improved audio session management, and push notifications for missed call.
+ - Improved sample Apps.
+
+3.12.7:
+ - Included custom headers in call cancellation push notifications.
+
+3.12.6:
+ - Fixed default orientation of local preview in landscape mode for video chat.
+ - Improved CallKit Sample App.
+
+3.12.5:
+ - Packaged Sinch Framework as modular framework, made it easier to be integrated into Swift projects.
+ - Improved Sample Apps.
+
+3.12.4:
+ - Added support for cancellation of a call via VoIP push notifications.
+ - Added API to set and retrieve custom headers from Sinch managed push notifications.
+ - Added NSNotification for the state change of a call.
+ - Added API to set data protection type of Sinch created files.
+ - Improved Sample Apps.
+
+3.12.3：
+ - Improved Sample Apps.
+
+3.12.2：
+ - Improved Wifi/Cellular handover for App calling.
+
+3.12.1:
+ - Bug fixes.
+
+3.12.0:
+ - Added support for CallKit integration (voice call only).
+ - Added support for accessing the raw video frame of local video stream.
+   Developers can now for example apply filter on local video stream and
+    send it to remote, or save screen shots of the local video stream.
+ - Fixed IPv6 compatibility issue.
+ - Minor fixes in Sample Apps.
+
+3.11.1:
+  - General improvement.
+
+3.11.0:
+  - Video Calling General Availability Release:
+    Added support for pausing and resuming video stream.
+    Added support for accessing the raw video frame of remote video stream.
+
+  - Resolved potential error `duplicate symbol
+    OBJC_CLASS$_GTMStringEncoding` when using the Sinch SDK together
+    with other third-party libraries that make use of
+    GTMStringEncoding.
+
+3.10.1:
+  - Bug fixes.
+
+3.10.0:
+  - General improvement.
+
+3.9.9:
+  - Made hangup timeout optional.
+
+3.9.8:
+  - IPv6 compatibility.
+
+  - General improvement and minor bug fixes.
+
+3.9.7:
+  - Video calling bug fixes.
+
+3.9.6:
+  - iOS 10 compatibility.
+
+  - Deprecated -[SINClient setSupportActiveConnectionInBackground:] for iOS 10.
+    See the new section 'Deprecated features and APIs' in User Guide
+    for details on this deprecation.
+
+3.9.5:
+  - Fix -[SINMessage timestamp] to return server-side timestamp for a
+    id<SINMessage> passed to -[SINMessageClientDelegate messageSent:recipientId:]
+
+  - Dropped support for i386 iOS Simulator. Please use x86_64 iOS Simulator.
+
+3.9.4
+  - Upgrade BoringSSL to revision c880e42ba1c8032d4cdde2aba0541d8a9d9fa2e9.
+    This revision includes fixes for described in
+    https://www.openssl.org/news/secadv/20160503.txt
+
+3.9.3
+  - Fix linker issues when using the SDK via CocoaPods.
+
+3.9.2
+  - Support for LLVM bitcode.
+
+3.9.1
+  - SIP errors reporting.
+
+3.9.0
+  - Added an API to initiate App-to-SIP call.
+
+3.8.0
+  - Introduced Sinch video calling.
+  - Exposed information about whether the call offers a video track in the
+    push notification details.
+
+3.7.2
+  - Add include guard for SINLogSeverity type
+
+3.7.1
+  - Improved camera permission handling.
+    Request for camera permission will now only be made when a video
+    call is started, and given that the user has previously not given
+    or denied permission. (The Sinch SDK will rely on iOS
+    automatically requesting permission for the camera and will _not_
+    use -[AVCaptureDevice requestAccessForMediaType:completionHandler:]).
+
+  - Rendering incoming video streams is now supported also in iOS Simulator.
+
+  - Removed armv7s slice in framework/library binary
+
+  - Fixed the macro SINAPSEnvironmentAutomatic to consider both DEBUG
+    and NDEBUG. This should make it work with Xcode projects that are
+    created with the default build setting DEBUG=1 defined for the
+    Debug build configuration.
+
+3.7.0
+  - Support for video calls
+  - Sample app for video calls
+
+3.6.2
+  - Updated to comply with iOS 9 App Transport Security defaults.
+    See the following link for details:
+    https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/
+
+3.6.1
+  - Sample app updates for Xcode 7 and iOS 9.
+
+3.6.0
+  - Introduced Sinch conference calling.
+
+3.5.2
+  - Adaptive bitrate support for OPUS codec in app-to-app calls.
+
+3.5.1
+  - Use UIApplication background task when requesting push device token to
+    increase robustness of acquiring device token when application is launched
+    into background mode (e.g. after device reboot, or after a crash).
+    Note that is only used when using VoIP push notifications (PushKit).
+    (The background task is started upon -[SINManagedPush setDesiredPushTypeAutomatically]
+     or -[SINManagedPush setDesiredPushType:], and it's ended upon receiving
+     a device token from PKPushRegistry).
+
+3.5.0
+  - New fully integrated support for remote push notifications:
+
+    - Push notifications sent by the Sinch cloud platform (provided that
+      you upload Apple Push Certificates to the Sinch Dashboard).
+
+    - Support for both regular remote push notifications and VoIP-
+      push notifications (available since iOS 8).
+
+    - New protocol SINManagedPush used as entry point for managing
+      push notifications.
+
+    - New push notification methods on SINClient:
+      -[SINClient enableManagedPushNotifications:]
+      -[SINClient relayRemotePushNotification:]
+      -[SINClient registerPushNotificationDeviceToken:type:apsEnvironment:]
+
+    - New sample apps that shows how to use the new push notification
+      functionality.
+
+  - New NSNotifications available (as a complement to SINClientDelegate):
+      SINClientDidStartNotification
+      SINClientDidFailNotification
+      SINClientWillTerminateNotification
+
+  - relayRemotePushNotification and relayRemotePushNotificationPayload
+     will now correctly start the client when the payload is for an IM.
+
+3.4.2
+  - Fix so that SINClient does not throw exception if
+    -[UIApplication setKeepAliveTimeout:handler] returns NO.
+    SINClient will now instead emit a log message with severity
+    SINLogSeverityCritical.
+
+3.4.1
+  - Support for x86_64 architecture (iOS 64-bit Simulator)
+
+  - Since 3.4.0: Change of C++ standard library
+      Now requires linking against libc++ (was previously libstdc++)
+      Please update 'Other Linker Flags' to contain '-Xlinker -lc++'
+
+3.4.0
+  - Support for arm64 architecture
+  - Support for OPUS codec for app-to-app calls
+  - Support web-to-app calling with the Sinch JavaScript SDK
+  - Change of C++ standard library
+      Now requires linking against libc++ (was previously libstdc++)
+      Please update 'Other Linker Flags' to contain '-Xlinker -lc++'
+
+3.3.2
+  - Added support for -[UILocalNotification category] (iOS 8)
+
+3.3.1
+	- Improved internal call reporting.
+
+3.3.0
+  - Added support for call headers for app-to-app calls.
+    See -[SINCall headers] and -[SINCallClient callUserWithId:headers:]
+
+3.2.9
+  - Fixed a regression in reporting SINCallEndCauseNoAnswer even if the call has
+    been canceled by the caller. It will now report the expected SINCallEndCauseCanceled
+    in this case.
+
+3.2.8
+  - Improvements to scenario where caller hangs up a call before certain
+    internal REST API requests has completed, but the requests completes
+    later during the graceful termination period.
+
+3.2.7
+  - Fixed issue with user notification permission on iOS 8.
+      SINLocalNotification.soundName was always by default assigned to
+      UILocalNotificationDefaultSoundName, which made iOS reject the
+      notification unless soundName was overridden by the developer.
+      The soundName property will be now be left as nil by default on iOS 8
+      unless user has granted permission for UIUserNotificationTypeSound.
+
+  - Added new method -[SINClient terminateGracefully]
+
+3.2.6
+  - Fixed issue causing long call setup time when using certain codecs.
+
+3.2.5
+  - Additional improvements for scenarios in which the caller cancels a call
+    before the call is answered.
+
+3.2.4
+  - Improvements of disposal of Sinch SDK internals if a consumer of the Sinch SDK
+    would accidentally keep reference counts on a SINMessageClient even after a
+    -[SINClient terminate] has been called.
+    *IMPORTANT:* Do note that is not in any way recommended to keep references
+    to e.g. a SINMessageClient or a SINCallClient after the parent SINClient
+    has been terminated.
+
+  - Fixed issue if caller hung up call quickly and before the callee answer,
+    the callee would not receive the event that the call actually ended.
+
+3.2.3
+  - Improvements in handling unstable network connection when initiating a call.
+
+3.2.2
+  - Fixed order of instant messages received as history (previously they would
+    sometimes be delivered in incorrect order)
+
+3.2.1
+  - Improvements in handling unstable network connection when initiating a call.
+
+3.2.0
+  - Added persistence. Messages are now persisted internally in the SDK and retried
+    automatically for 12 hours before failing.
+
+3.1.5
+  - Internal improvements for Call headers.
+
+3.1.4
+  - Bugfix: Incoming calls will from now on never have state SINCallStateProgressing.
+      Previously, incoming calls could either be in SINCallStateInitiating
+      or SINCallStateProgressing just after
+      -[SINCallClientDelgate client:didReceiveIncomingCall:].
+      Now, the call will initially be in SINCallStateInitiating, until
+      transitioning to SINCallStateEstablished or SINCallStateEnded.
+
+  - Fixed crash when attempting to send DTMF during call setup.
+
+3.1.3
+  - Fixed crash that could occur under bad network conditions
+
+3.1.2
+  - Internal improvements: Reducing number of signaling messages sent when
+    initiating a voice call.
+
+3.1.1
+  - Improvements for Swift compatibility:
+    - Use NS_ENUM when declaring enums, e.g. SINCallState, SINCallEndCause etc.
+
+3.1.0
+  - -[SINClient stop] has been deprecated and replaced by -[SINClient terminate].
+    As part of this change, the SINClient is invalidated after -[SINClient terminate]
+    has been called and cannot be restarted.
+
+3.0.0
+  - App-to-Phone (PSTN) calling functionality:
+    - New method: -[SINClient callPhoneNumber:]
+    - New method: -[SINCall sendDTMF:]
+
+  - Support for sending Instant Messages to multiple recipients.
+
+  - Objective-C prefix changed, REB -> SIN (Rebtel -> Sinch)
+  - Removed -[SINCallDelegate callReceivedOnRemoteEnd:]
+  - New method -[SINCallDelegate callReceivedOnRemoteEnd:earlyMedia:]
+  - -[SINMessageClientDelegate messageDeliveryFailed:info:] no longer
+    takes an array as second argument, but a single SINMessageFailureInfo.
+  - Removed [SINMessageClientDelegate messageSent:]
+  - New method [SINMessageClientDelegate messageSent:recipientId:]
+
+2.1.1
+  - Fixed issue with playback of audio files not de-activating
+    the AVAudioSession properly.
+    Resolved so that if -[REBAudioController
+    startPlayingSoundFile:loop:] is invoked with loop == NO,
+    the audio session will automatically be deactivated when
+    playback of the file ends, i.e. when the duration of the
+    file has elapsed.
+
+2.1.0
+  - Improved audio quality
+  - Audio Session category mode AVAudioSessionModeVoiceChat is now
+    applied when the SDK initially configures the audio session.
+  - Added -[REBOutgoingMessage messageWithMessage:] to make it
+    easier to resend failed messages.
+
+2.0.1
+	Improvements:
+	- Stability
+	  - Fixed issue where SDK under certain circumstances could
+	  retry establishing a lost connection to aggressively.
+
+2.0.0
+	New features:
+
+	- Instant Messaging
+
+	  New classes / protocols:
+	  - REBMessageClient
+	  - REBMessageClientDelegate
+	  - REBMessage
+	  - REBOutgoingMessage
+	  - REBMessageDeliveryInfo
+	  - REBMessageFailureInfo
+
+
+	Breaking API changes since 1.x:
+
+	- REBNotificationResult is no longer used only for incoming calls.
+
+	  After a notification result has been obtained from either
+	    -[REBClient relayLocalNotification:] or
+	    -[REBClient relayRemotePushNotificationPayload:],
+	  it should be inspected with the methods:
+  	    -[REBNotificationResult isCall] and
+	    -[REBNotificationResult isMessage].
+
+	  It can thereafter be transformed into a call-specific, or
+	  message-specific notification result via the methods:
+	    -[REBNotificationResult callResult]
+	    -[REBNotificationResult messageResult].
+
+	  - New protocols:
+	    - REBCallNotificationResult
+	    - REBMessageNotificationResult
+	    - REBPushPair
+
+	  - Removed files:
+	    - REBError.h
+
+	- The -[REBCall call:shouldSendPushNotifications:] signature has changed.
+	  When a call previously indicated it needed to be pushed to the remove
+	  user, the callback was passed a string with the payload and an
+	  array with destinations. This has now been changed. Instead the
+	  callback is passed an array of REBPushPair that contains the
+	  same data.
+
+1.2.1
+	Improvements:
+
+	- Fix for intermittent issue with failing voice audio input/output
+	  on iOS 7.
+
+	-[REBClientDelegate client:didReceiveIncomingCall:] being invoked if
+	app returns to foreground when user taps app icon on Home Screen.
+	REBClient will notify it’s delegate of an incoming call as soon as
+	the application returns to foreground, if the incoming call is still
+	relevant (i.e. not timed out).
+	  This fixes an issue where the delegate would not be notified about
+	the incoming call if the user tapped the app icon on Home Screen to
+	answer a call. (Previously, the app always had to use
+	-[REBClient relayLocalNotification:] to trigger the event chain
+	leading up to -[REBClientDelegate client:didReceiveIncomingCall:]
+	being called. )
+
+1.2.0
+	New features:
+
+	- Peer-to-Peer media streams:
+	  The voice stream of voip calling   will now flow directly from one
+	  peer (user) to the other, without passing through the Rebtel
+	  servers. This brings lower latency and better voice quality.
+
+1.0.1
+	Minor improvements
+
+1.0.0
+	Features:
+
+	- User-to-user calling from within any app
+	- HD voice quality by supporting the iSAC codec
+	- Advanced Call handling
+	- Audio handling
+	- Background mode support
+	- Push notifications support
