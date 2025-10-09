@@ -1,7 +1,7 @@
 # In-app - Swift Package Manager
 Swift Package Manager distribution for SinchRTC iOS SDK
 
-SDK version: v5.35.37
+SDK version: v0.0.0
 
 [![Language](https://img.shields.io/badge/language-Swift-orange?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
@@ -13,48 +13,43 @@ SDK version: v5.35.37
 - Xcode 12.0+
 - Swift 5.0+
 
-## Installation
+## Setup
 
-### Swift Package Manager
-
-This repository provides two branches so you can choose which binary variant to consume:
-
-- `main` (default) or `dynamic`: uses the dynamic xcframework
-- `static`: uses the static xcframework
-
-### Xcode Integration
-
+### Add via Xcode (recommended)
 1. In Xcode, go to **File** → **Add Package Dependencies...**
-2. Enter the repository URL:
+2. Repository URL:
    ```
    https://github.com/sinch/sinch-ios-sdk-spm
    ```
-3. Select **Add Package**
-4. Choose the **SinchRTC** library and click **Add Package**
-5. In the package configuration view, set Dependency Rule to **Branch**, and type either `dynamic` (or `main`) or `static`
+3. Click **Add Package**.
+4. In the configuration view, set Dependency Rule to **Branch** and choose one:
+   - `dynamic` (or `main`): links a dynamic xcframework
+   - `static`: links a static xcframework
+5. Select product **SinchRTC** for your app target and finish.
 
-### Manual Integration
+**Notes:**
+- For `dynamic`/`main`: in your app target → General → Frameworks, Libraries, and Embedded Content, set SinchRTC to **Embed & Sign**.
+- For `static`: set SinchRTC to **Do Not Embed**. No extra system frameworks are required; the package auto‑links what it needs.
 
-1. Add sinch-ios-sdk-spm repository as a dependency in your `Package.swift` (choose one):
-   ```swift
-   dependencies: [
-       // Dynamic (same as main)
-       .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "dynamic"),
-       
-       // or Static
-       //.package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "static"),
-   ]
-   ```
-
-2. Add the library to your target:
-   ```swift
-   targets: [
-       .target(
-           name: "YourApp",
-           dependencies: ["SinchRTC"]
-       )
-   ]
-   ```
+### Add via Package.swift (manual)
+Choose one branch:
+```swift
+dependencies: [
+    // Dynamic (same as main)
+    .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "dynamic"),
+    // or Static
+    //.package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", branch: "static"),
+]
+```
+Then add the product to your target:
+```swift
+targets: [
+    .target(
+        name: "YourApp",
+        dependencies: ["SinchRTC"]
+    )
+]
+```
 
 ## Resources
 
