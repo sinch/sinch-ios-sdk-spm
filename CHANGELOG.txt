@@ -1,3 +1,5 @@
+  - Added support to Swift Package Manager (https://github.com/sinch/sinch-ios-sdk-spm/tree/main) 
+
 5.34.4
   - Added generic audio-session hooks Swift API:
     - `didActivate(audioSession: AVAudioSession)`
