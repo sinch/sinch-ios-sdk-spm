@@ -17,7 +17,6 @@ let package = Package(
       name: "SinchRTCLinkedFrameworks",
       dependencies: ["SinchRTC"],
       linkerSettings: [
-        .unsafeFlags(["-ObjC"], .when(platforms: [.iOS])),
         .linkedFramework("PushKit"),
         .linkedFramework("SystemConfiguration"),
         .linkedFramework("VideoToolbox"),
