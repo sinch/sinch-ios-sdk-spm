@@ -1,7 +1,7 @@
 # In-app - Swift Package Manager
 Swift Package Manager distribution for SinchRTC iOS SDK
 
-SDK version: v5.35.37
+SDK version: v5.35.50
 
 [![Language](https://img.shields.io/badge/language-Swift-orange?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
@@ -24,7 +24,7 @@ https://github.com/sinch/sinch-ios-sdk-spm
 3. In the configuration view, choose one of the following Dependency Rules:
    - Branch: select `dynamic` (or `main`) to link a dynamic xcframework
    - Branch: select `static` to link a static xcframework
-   - Version: select **Exact Version** and enter "5.35.37"
+   - Version: select **Exact Version** and enter "5.35.50"
 4. Click **Add Package**.
 
 **Notes:**
@@ -36,7 +36,7 @@ https://github.com/sinch/sinch-ios-sdk-spm
 By Version (recommended):
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", exact: "X.Y.Z"),
+    .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", exact: "5.35.50"),
 ]
 ```
 
