@@ -10,8 +10,8 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "SinchRTC",
-      url: "https://download.sinch.com/ios/temp/apple/dynamic/SinchRTC-iOS-5.35.50%2bc5da17c1.zip",
-      checksum: "6dc491ee162a4d4e8830e564feec3d72f68b5d18f47a383133f21407d2aaecd8"
+      url: "https://download.sinch.com/ios/temp/apple/dynamic/SinchRTC-iOS-5.35.54%2b69b22bc8.zip",
+      checksum: "8820fc8fbeaee8abfe7f2eb851923cd45f9ad91c09eed07f770e544d40dc27e0"
     ),
     .target(
       name: "SinchRTCLinkedFrameworks",
