@@ -10,8 +10,8 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "SinchRTC",
-      url: "https://download.sinch.com/ios/temp/apple/static/SinchRTC-iOS-5.35.54%2b69b22bc8.zip",
-      checksum: "696f2b3bec45674c22c9bf9985d3d7723af6f79242abc4dd7a72ce304e98feb5"
+      url: "https://download.sinch.com/ios/5.35.4/apple/static/SinchRTC-iOS-5.35.4%2bfb948e38.zip",
+      checksum: "64b1c931195761cadeb880f2fbe9b5e81fb8a5ff23a33314795260d4a8ddbde6"
     ),
     .target(
       name: "SinchRTCLinkedFrameworks",
@@ -30,5 +30,3 @@ let package = Package(
     )
   ]
 )
-
-// mirroring test
