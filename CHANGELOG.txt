@@ -1,3 +1,14 @@
+5.37.4
+  - Updated the logic for emitting managed push notifications. Managed push notifications are now emitted to any
+    callee that supports them, even if the caller did not enable managed push support.
+  - Added graceful handling of WebRTC audio-related startup errors that might originate from an Android remote client. If such an error
+    occurs, the call is terminated with the appropriate error (codes: AudioRecordInitFailed - 3500, AudioRecordStartFailed - 3501,
+     AudioTrackInitFailed - 3502, AudioTrackStartFailed - 3503) and `SINCallEndCauseError` end cause.
+
+5.36.10
+  - Improved execution logic of `SINCallDelegate callDidAnswer` callback. For the callee it is now invoked immediately after accepting the call.
+  - Improved the internal flow related to notifying peers about the establishment process.
+
 5.35.4
   - Added support to Swift Package Manager (https://github.com/sinch/sinch-ios-sdk-spm.git) 
 
