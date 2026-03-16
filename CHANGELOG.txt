@@ -1,3 +1,15 @@
+  - IMPORTANT: Swift compatibility requirement for Objective-C projects. Due to the migration of internal components to Swift,
+    Objective-C must enable Swift runtime support. To do this, we suggest to add a Swift file  to your Xcode project (e.g., an empty Swift file) 
+    and create a bridging header when Xcode prompts you. This ensures that Xcode links  the Swift standard library and sets up the Swift 
+    runtime environment, which are required for the app to build and run correctly.
+  - Remove support for Objective-C SDK (`Sinch.xcframework`). For migration guidance, see the online documentation:
+    https://developers.sinch.com/docs/in-app-calling/ios/miscellaneous#swift-runtime-support-for-objective-c-projects
+
+5.38.7
+  - Improve SDK size footprint. As an example, the footprint for static version of SinchRTC framework has been reduced by 0.5 Mb (9.4 -> 8.9) 
+    for uncompressed app size.
+  - Improved internal process of exchanging errors between the peers. 
+
 5.37.4
   - Updated the logic for emitting managed push notifications. Managed push notifications are now emitted to any
     callee that supports them, even if the caller did not enable managed push support.
