@@ -1,3 +1,8 @@
+5.39.20
+  - Improve SDK size footprint. As an example, the footprint for static version of SinchRTC framework has been reduced by 0.3 Mb (8.9 -> 8.6) 
+    for uncompressed app size.
+  - Add `setPreferredAudioDevice(_: SinchAudioDevice)` and `availableAudioDevices()` to `SinchAudioController` to to allow overriding the internal 
+    default audio routing (e.g., headset, builtIn). 
   - IMPORTANT: Swift compatibility requirement for Objective-C projects. Due to the migration of internal components to Swift,
     Objective-C must enable Swift runtime support. To do this, we suggest to add a Swift file  to your Xcode project (e.g., an empty Swift file) 
     and create a bridging header when Xcode prompts you. This ensures that Xcode links  the Swift standard library and sets up the Swift 
