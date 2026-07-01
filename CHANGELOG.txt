@@ -1,3 +1,9 @@
+5.40.13
+  - Add `localAudioFrameDelegate` and `remoteAudioFrameDelegate` to `SinchAudioController` (`SinchLocalAudioFrameDelegate` /
+    `SinchRemoteAudioFrameDelegate`) to allow observing and modifying the raw PCM audio captured from the microphone and the
+    decoded remote audio before playout.
+  - Bumped minimum iPhone deployment target version to iOS 17.0.
+
 5.39.20
   - Improve SDK size footprint. As an example, the footprint for static version of SinchRTC framework has been reduced by 0.3 Mb (8.9 -> 8.6) 
     for uncompressed app size.
