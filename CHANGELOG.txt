@@ -1,3 +1,6 @@
+5.41.6
+  - Downgraded minimum iPhone deployment target version to iOS 15.0.
+
 5.40.13
   - Add `localAudioFrameDelegate` and `remoteAudioFrameDelegate` to `SinchAudioController` (`SinchLocalAudioFrameDelegate` /
     `SinchRemoteAudioFrameDelegate`) to allow observing and modifying the raw PCM audio captured from the microphone and the

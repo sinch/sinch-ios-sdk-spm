@@ -1,15 +1,15 @@
 # In-app - Swift Package Manager
 Swift Package Manager distribution for SinchRTC iOS SDK
 
-SDK version: v5.40.13
+SDK version: v5.41.6
 
 [![Language](https://img.shields.io/badge/language-Swift-orange?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
-[![Platform](https://img.shields.io/badge/platform-iOS%2012%2B-blue.svg?style=flat)](https://developer.apple.com/ios/)
+[![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue.svg?style=flat)](https://developer.apple.com/ios/)
 
 ## Requirements
 
-- iOS 12.0+
+- iOS 15.0+
 - Xcode 12.0+
 - Swift 5.0+
 
@@ -24,7 +24,7 @@ https://github.com/sinch/sinch-ios-sdk-spm
 3. In the configuration view, choose one of the following Dependency Rules:
    - Branch: select `dynamic` (or `main`) to link a dynamic xcframework — always uses the latest available dynamic SDK version
    - Branch: select `static` to link a static xcframework — always uses the latest available static SDK version
-   - Version: select **Exact Version** and enter "5.40.13" — links the dynamic xcframework for that specific version
+   - Version: select **Exact Version** and enter "5.41.6" — links the dynamic xcframework for that specific version
 4. Click **Add Package**.
 
 **Notes:**
@@ -38,7 +38,7 @@ https://github.com/sinch/sinch-ios-sdk-spm
 By Version (recommended):
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", exact: "5.40.13"),
+    .package(url: "https://github.com/sinch/sinch-ios-sdk-spm.git", exact: "5.41.6"),
 ]
 ```
 
