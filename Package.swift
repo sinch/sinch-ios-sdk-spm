@@ -3,15 +3,15 @@ import PackageDescription
 
 let package = Package(
   name: "SinchRTC",
-  platforms: [.iOS(.v17)],
+  platforms: [.iOS(.v15)],
   products: [
     .library(name: "SinchRTC", targets: ["SinchRTC", "SinchRTCLinkedFrameworks"]) 
   ],
   targets: [
     .binaryTarget(
       name: "SinchRTC",
-      url: "https://download.sinch.com/ios/5.40.13/apple/static/SinchRTC-iOS-5.40.13%2b2717a967.zip",
-      checksum: "18423a3708e96c0da4cab2cef0428b1f3496d18a9ef073f26ce84da6f4061359"
+      url: "https://download.sinch.com/ios/5.41.6/apple/static/SinchRTC-iOS-5.41.6%2b2016b16a.zip",
+      checksum: "29c50068b2c496c015cbb95ce4a7759bc674a1f0ac37a19e24cc33e0eca50605"
     ),
     .target(
       name: "SinchRTCLinkedFrameworks",
