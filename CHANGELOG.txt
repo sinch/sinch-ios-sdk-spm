@@ -1,3 +1,7 @@
+5.42.4
+  - Fixed a rare deadlock during SinchClient creation that could cause the app to crash on the main thread while the client was being
+    initialized (originating in `rebrtc::UserAgentProxy::setApplicationContext`).
+
 5.41.6
   - Downgraded minimum iPhone deployment target version to iOS 15.0.
 
