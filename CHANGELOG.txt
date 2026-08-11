@@ -1,3 +1,16 @@
+5.44.3
+  - Fixed a symbol collision in the static SinchRTC framework: BoringSSL's C API (`AES_encrypt`, `EVP_*`, `RAND_*`, `BN_*`,
+    `BORINGSSL_self_test`, etc.) was exported unprefixed, which could collide with another copy of BoringSSL/OpenSSL
+    statically linked into the same app and cause a crash. BoringSSL's symbols are now prefixed (`SINCH_*`) so they can
+    no longer be confused with another library's copy at link time.
+
+5.43.3
+  - BREAKING: Replaced the video frame callback API on `SinchVideoController` with local and remote video frame delegates.
+    Removed `SinchVideoFrameCallback`, `setLocalVideoFrameCallback(_:)` and `setRemoteVideoFrameCallback(_:)`. Use the new
+    `localVideoFrameDelegate` and `remoteVideoFrameDelegate` properties (`SinchLocalVideoFrameDelegate` /
+    `SinchRemoteVideoFrameDelegate`) to observe and modify local and remote video frames before they are sent or rendered. 
+    Buffer ownership is now managed by the SDK: the delegate no longer needs to call `CVPixelBufferRetain` / `CVPixelBufferRelease` on the provided frame.
+
 5.42.4
   - Fixed a rare deadlock during SinchClient creation that could cause the app to crash on the main thread while the client was being
     initialized (originating in `rebrtc::UserAgentProxy::setApplicationContext`).
