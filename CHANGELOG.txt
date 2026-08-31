@@ -1,3 +1,7 @@
+5.45.12
+  - Improve filtering of TURN related log messages to reduce noise in the public API log callback.
+  - Add ICE connectivity (connected and completed) reporting over MXP.
+
 5.44.3
   - Fixed a symbol collision in the static SinchRTC framework: BoringSSL's C API (`AES_encrypt`, `EVP_*`, `RAND_*`, `BN_*`,
     `BORINGSSL_self_test`, etc.) was exported unprefixed, which could collide with another copy of BoringSSL/OpenSSL
