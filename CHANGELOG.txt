@@ -1,3 +1,6 @@
+5.46.3
+  - Fixed a crash during `SinchClient` creation when the keychain is unreadable.
+
 5.45.12
   - Improve filtering of TURN related log messages to reduce noise in the public API log callback.
   - Add ICE connectivity (connected and completed) reporting over MXP.
