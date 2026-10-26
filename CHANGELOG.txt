@@ -1,3 +1,14 @@
+5.47.17
+  - Fixed `startPlayingSoundFile` stopping its own sound right after it started, which caused ringtones and other
+    sound files to not be heard. Also fixed `stopPlayingSoundFile` followed by `startPlayingSoundFile` stopping the new sound.
+  - Add `dialPhoneNumber(_:options:)`, `dialSip(_:options:)`, `dialStream(_:options:)`, and `dialVoiceRelay(_:options:)` to `SinchCallClient`,
+    placing calls that are always routed through the Sinch Voice V2 platform. These APIs are in beta: they are functional, but their
+    signature or behaviour may change.
+    The call ID of a dial is assigned by the Sinch platform; `callId` is empty until the platform has accepted
+    or rejected the dial.
+  - `sendDTMF` now accepts a series of DTMF keys in one call (e.g. `"123#"`) and lowercase `a-d`. Previously only a
+    single uppercase key was accepted.
+
 5.46.3
   - Fixed a crash during `SinchClient` creation when the keychain is unreadable.
 
